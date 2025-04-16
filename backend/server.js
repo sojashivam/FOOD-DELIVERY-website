@@ -3,40 +3,39 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 import foodRouter from "./routes/foodRoute.js";
 import userRouter from "./routes/userRoute.js";
-import 'dotenv/config'
 import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
+import dotenv from "dotenv";
 
-//app config
- const app = express();
- const port = 4000;
+// Load environment variables
+dotenv.config();
 
- // middlware
- app.use(express.json())
- app.use(cors())
+// App config
+const app = express();
+const port = process.env.PORT || 4000;
 
- //db connection 
- connectDB();
+// Middleware
+app.use(express.json());
+app.use(cors());
 
- // API endpoint
+// Static files
+app.use("/images", express.static("uploads"));
 
- app.use("/api/food",foodRouter)
- app.use("/images", express.static('uploads'))
- app.use("/api/user",userRouter)
- app.use("/api/cart",cartRouter)
- app.use("/api/order",orderRouter)
+// DB Connection
+connectDB();
 
+// API routes
+app.use("/api/food", foodRouter);
+app.use("/api/user", userRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/order", orderRouter);
 
- app.get("/",(req,res)=>{
-    res.send("API working")
- })
+// Root route
+app.get("/", (req, res) => {
+  res.send("API working");
+});
 
-
- app.listen(port,()=>{
-    console.log(`Server Started on http://localhost:${port}`)
- })
-
-
-
-
- //mongodb+srv://newbiehustler49:gY4MKx8JPpwjEVTV@cluster0.akm5w.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+// Start server
+app.listen(port, () => {
+  console.log(`Server started at http://localhost:${port}`);
+});
