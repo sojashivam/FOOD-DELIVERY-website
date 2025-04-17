@@ -6,6 +6,7 @@ import userRouter from "./routes/userRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 import dotenv from "dotenv";
+const path = require('path');
 
 // Load environment variables
 dotenv.config();
